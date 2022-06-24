@@ -56,8 +56,15 @@ public class MailService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
-		
 	}
+	
+	public void emailLogin(String mail) {
+		String to, subject , body;
+		to = mail;
+		subject = "[오리마켓]가입 인증번호입니다.";
+		body = getKey(6);
+		sendMail(to,subject,body);
+	}
+	
+	
 }
