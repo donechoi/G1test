@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 public class MailConfig {
 	
 	@Bean
-	public JavaMailSender mailSender() {
+	public JavaMailSender gmailSender() {
 		JavaMailSenderImpl jms = new JavaMailSenderImpl();
 		jms.setHost("smtp.gmail.com"); //프로토콜설정(어디메일?)
 		jms.setPort(587); //포트번호
