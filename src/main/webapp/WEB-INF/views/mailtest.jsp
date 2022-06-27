@@ -22,19 +22,29 @@
 var code = ""; // 인증번호 저장 변수
 
 /* 이메일 입력방법 */
-function selectMailDo(ele){
-	var $ele = $(ele)
-	var inputMailDo = $('#inputMailDo').val()
+function selectOpt() {
+	mbr_email3_opt = $("#mbr_email3").val()
+	mbr_email2 = $("#mbr_email2") // 주소 입력값
+	
+	if(mbr_email3_opt == "1"){ // 직접입력
+		mbr_email2.val('') //초기화
+		mbr_email2.attr("disabled",false)
+	}else{
+		mbr_email2.val(mbr_email3_opt)
+		mbr_email2.attr("disabled",true)
+	}
+	//console.log(mbr_email2.val())
 }
 
-/* 이메일 발송 코드 + 유효성 검사*/
+
+/* 입력값 저장 + 이메일 발송 코드 */
+// config 메일전송 막음~!!@!!!!!!!!!!!!!!!!!!!
 function gmailSend(){
-	let mail = $("#memberMail").val() // 입력 이메일
+	mail = $("#mbr_email").val() // 입력 이메일 아이디
+	mail = mail + "@" + mbr_email2.val() //이메일 전체 입력값
+	//console.log(mail)
 	let inputCode = $("#inputCode") // 인증번호 입력란
 	let codeCkBtn = $("#codeCkBtn") // 인증번호 버튼
-	// console.log(mail)
-	
-	//mail = mail +"@"+$("#mailDo option:selected").val();
 	
 	$.ajax({
 		url : 'sendMail', type : 'post', dataType : 'json',
@@ -44,7 +54,8 @@ function gmailSend(){
 			alert("메일 발송 완료!")
 			inputCode.attr("disabled",false)
 			codeCkBtn.attr("disabled",false)
-			
+			$("#mbr_email").val(mail) // DB저장위해 다시 저장
+			//console.log($("#mbr_email").val())
 			// console.log(data) // 인증코드 콘솔 확인
 			code = data // 인증코드 변수에 저장 
 		},error : function(request,status,error){
@@ -74,9 +85,10 @@ function mailCodeCk(){
 	<input type="text" placeholder="아이디"><br>
 	
 	<div class="email">
-		<input id="memberMail" name="memberMail" type="text" placeholder="이메일"> @ 
-		<input disabled="disabled" id="inputMailDo" name="inputMailDo" type="text" placeholder="직접입력" >
-		<select id="mailDo" onchange="selectMailDo(this)">
+		<!-- mbr_email값만 저장(js로 전체값 저장처리완료) -->
+		<input id="mbr_email" name="mbr_email" type="text" placeholder="이메일"> @ 
+		<input disabled="disabled" id="mbr_email2" name="mbr_email2" type="text">
+		<select id="mbr_email3" onchange="selectOpt()">
 			<option value="" selected>선택하기</option>
 			<option value="naver.com">naver.com</option>
 			<option value="gmail.com">gmail.com</option>

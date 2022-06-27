@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gone.test01.mailService.MailService;
@@ -26,13 +27,15 @@ public class MailController {
 							HttpServletResponse response,
 							HttpServletRequest request) 
 										throws Exception{
+		//System.out.println(mail);
 		String key = ms.gmailLogin(mail);//메일 전송 메소드
-		return key; //key값 전송
+		return key; //key값 ajax 리턴
 	}
 
 	//로그인 페이지 Controller
 	@GetMapping("mailtest")
 	public String mailtest() {
+		
 		return "mailtest";
 	}
 	
